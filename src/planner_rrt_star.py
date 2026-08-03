@@ -51,3 +51,56 @@ class RRTStarPlanner:
                 bestd = n
                 best = n
         return best if best if not None else sample
+
+    def _choose_parent(self, near: list[str], new_zone: str, tree: dict[str, TreeNode]) -> str:
+        best_parent = near[0]
+        best_cost = tree[best_parent].cost + self._edge_cost(new_zone)
+        for n in near[1:]:
+            c = tree[n].cost + self._edge_cost(new_zone)
+            if c < best_cost:
+                best_cost = c
+                best_parent = n
+        return best_parent
+
+    def _extract_path(self, tree: dict[str, TreeNode], goal: str) -> list[str]:
+        path: list[str] = [goal]
+        cur = goal
+        while tree[cur].parent is not None:
+            cur = tree[cur].parent if tree[cur].parent is not None else cur
+            path.append(cur)
+        path.reverse()
+        return path
+
+    def plan(
+        self,
+        start: str,
+        goal: str,
+        iters: int = 700,
+        gamma: float = 3.0
+    ) -> list[str]:
+        if start == goal:
+            return [start]
+        tree: dict[str, Treenode] = {start: TreeNode(zlone=start, parent=None, cost=0.0)}
+        all_names = list(self.zones.keys())
+        best_goal: Optional[str] = None
+        best_goal_cost = 1e18
+        for _ in range(iters):
+            sample = goal if self.rng.random() < 0.15 else self.rng.choice(all_names)
+            if self.zones[sample].zone_type == ZoneType.BLOCKED:
+                continue
+            near0 = self.__nearest(tree, sample)
+            neighbors = [n for n in self.adj.get(near0, []) if self.zones[n].zone_type != ZoneType.BLOCKED]
+            if not neighbors:
+                continue
+            new_zone = min(neighbors, key=lambda n: self._dist(n, sample))
+            if new_zone in tree:
+                continue
+            r = max(1.0, gamma)
+            near_nodes = [n for n in tree if self._dist(n, new_zone) <= r and new_zone in self.adj[n]]
+            if not near_nodes:
+                near_nodes = [near0]
+            parent = self._choose_parent(near_nodes, new_zone, tree)
+            cost = tree[parent].cost + self._egde_cost(new_zone)
+            tree[new_zone] = TreeNode(zone=new_zone, parent=parent, cost=cost)
+            for n in near_nodes:
+
