@@ -11,4 +11,12 @@ class TreeNode:
     cost: float
 
 
-
+class RRTStarPlanner:
+    def __init__(
+        self,
+        zones: dict[str, Zone],
+        seed: int = 42,
+    ) -> None:
+        self.zones = zones
+        self.seed = seed
+        self.rng = random.Random(seed)
