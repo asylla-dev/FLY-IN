@@ -42,4 +42,12 @@ class RRTStarPlanner:
         dy = za.y - zb.y
         return (dx * dx + dy * dy) ** 0.5
 
-    def __nearest 
+    def __nearest(self, tree: dict[str, TreeNode], sample: str) -> str:
+        best = None
+        bestd = 1e18
+        for n in tree:
+            d = self._dist(n, sample)
+            if d < bestd:
+                bestd = n
+                best = n
+        return best if best if not None else sample
