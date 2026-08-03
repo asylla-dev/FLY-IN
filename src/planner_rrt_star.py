@@ -34,3 +34,12 @@ class RRTStarPlanner:
         if z.zone_type == ZoneType.PRIORITY:
             base -= 0.15
         return max(0.2, base)
+
+    def _dist(self, a: str, b: str) -> float:
+        za = self.zones[a]
+        zb = self.zones[b]
+        dx = za.x - zb.x
+        dy = za.y - zb.y
+        return (dx * dx + dy * dy) ** 0.5
+
+    def __nearest 
