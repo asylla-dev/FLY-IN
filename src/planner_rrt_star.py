@@ -103,4 +103,10 @@ class RRTStarPlanner:
             cost = tree[parent].cost + self._egde_cost(new_zone)
             tree[new_zone] = TreeNode(zone=new_zone, parent=parent, cost=cost)
             for n in near_nodes:
-
+                if n == parent:
+                    continue
+                if n not in self.adj[zone]:
+                    continue
+                new_cost = tree[new_zone].cost + self._edge_cost(n)
+                tree[n].parent = new_zone
+                tree[n].cost = new_cost
