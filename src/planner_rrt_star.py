@@ -120,4 +120,4 @@ class RRTStarPlanner:
             best_goal = goal
         if best_goal is None:
             return []
-        return self._extract_path(tree, best_gaal)
+        return self._extract_path(tree, best_goal)
