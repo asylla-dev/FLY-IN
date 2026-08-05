@@ -58,3 +58,16 @@ class Parser:
             raw = raw[:idx]
         return raw.strip()
 
+    def _split_meta(self, raw: str) -> dict[str, str]:
+        if not raw.strip():
+            return {}
+        items = re.split(r"[,\s]+", raw.strip())
+        out: dict[str, str] = {}
+        for item in items:
+            if not item:
+                continue
+            if "=" not in item:
+                raise ValueError(f"Line {self.line_no}: Invalid metadata '{item}')
+            k, v = item.split("=", 1)
+            k = k.strip().lower()
+            v = v.strip
