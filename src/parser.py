@@ -77,4 +77,75 @@ class Parser:
         return out
 
     def _extract_meta(self, text: str) -> tuple[str, dict[str, str]]:
+        m = re.search(r"\[(.*?)\]", text)
+        if m is None:
+            return text.strip(), {}
+        base = text[: m.start()].strip()
+        return base, self._split_meta(m.group(1))
 
+    def _parse_zone(self, line: str, role: str) -> None:
+        prefix = "hub:" if role == "hub" else f"{role}_hub:"
+        body = line.split(prefix, 1)[1].strip()
+        base, meta = self._extract_meta(body)
+        parts = base.split()
+        if len(parts) != 3:
+            raise ValueError(f"Line {self.line_no}: Invalid zone format")
+        name, sx, sy, = parts
+        if "-" in name or " " in name:
+            raise ValueError(f"Line {self.line_no}: Zone name '{name}' cannot contain '-' or spaces")
+        if name in self._zones:
+            raise ValueError(f"Line {self.line_no}: Duplicate zone '{name}'")
+        try:
+            x = int(sx)
+            y = int(sy)
+        except ValueError as e:
+            raise ValueError(f"Line {self.line_no}: Coordinates must be integers") from e
+        zone_raw = meta.get("zone", "normal").lower()
+        allowed = {z.value for z in ZoneType}
+        if zone_raw not in allowed:
+            raise ValueError(f"Line {line_no}: Invalid zone type '{zone_raw}'")
+        zone_type = ZoneType(zone_raw)
+        color = meta.get("color")
+        if role in ("start", "end"):
+            max_drones = None
+        else:
+            md = meta.get("max_drones", "1")
+            try:
+                max_drones = int(md)
+            except ValueError as e:
+                raise ValueError(f"Line {self.line_no}: max_drones must be integer") from e
+            if max_drones <= 0:
+                raise ValueError(f"Line {self.line_no}: max drones must be > 0")
+        zone = Zone(
+            name=name,
+            x=x,
+            y=y,
+            zone_type = zone_type,
+            color=color,
+            max_drones=max_drones,
+            role="hub" if role == "hub" else role,
+        )
+        self._zones[name] = zone
+        if role == "start":
+            if self._start is not None:
+                raise ValueError(f"Line {self.line_no}: Multiple start_hub definitions")
+            self._start = name
+        if role == "end":
+            if self._end is not None:
+                raise ValueError(f"Line {self.line_no}: Multiple end_hub definitions")
+            self._end = name
+
+
+
+    def _parse_lines(self, lines: list[str]) -> None:
+        first_data_seen = False
+        for i, raw in enumerate(lines, start=1):
+            self.line_no = i
+            line = self_clean(raw)
+            if not line:
+                continue
+            if not first_data_seen:
+                self_.parse_nb_drones(line)
+                first_data_seen = True
+                continue
+            
