@@ -19,3 +19,6 @@ class ParsingResult:
         self.connections = connections
         self.start_hub = start_hub
         self.end_hub = end_hub
+
+
+
