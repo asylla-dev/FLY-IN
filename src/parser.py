@@ -71,3 +71,10 @@ class Parser:
             k, v = item.split("=", 1)
             k = k.strip().lower()
             v = v.strip
+            if not v:
+                raise ValueError(f"Line {self.line_no}: Empty metadata value for '{k}'")
+            out[k] = v
+        return out
+
+    def _extract_meta(self, text: str) -> tuple[str, dict[str, str]]:
+
