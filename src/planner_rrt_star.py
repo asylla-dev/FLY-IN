@@ -2,7 +2,7 @@ from __future__ import annotations
 from .models import ZoneType, Zone, Connection
 from dataclasses import dataclass
 from typing import Optional
-
+import random
 
 @dataclass
 class TreeNode:
@@ -21,7 +21,7 @@ class RRTStarPlanner:
         self.zones = zones
         self.seed = seed
         self.rng = random.Random(seed)
-        self.adj: dict[str, list[str]] == {name: [] for name in zones}
+        self.adj: dict[str, list[str]] = {name: [] for name in zones}
         for c in connections:
             self.adj[c.a].append(c.b)
             self.adj[c.b].append(c.a)

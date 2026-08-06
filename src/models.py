@@ -15,10 +15,11 @@ class ZoneType(str, Enum):
 class Zone:
     name: str
     x: int
-    y = int
+    y: int
     zone_type: ZoneType = ZoneType.NORMAL
     color: Optional[str] = 1
     role: str = "hub"
+    max_drones: Optional[int] = None
     neighbors: list[str] = field(default_factory=list)
 
     @property
