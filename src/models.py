@@ -28,12 +28,15 @@ class Zone:
 
     @property
     def move_cost(self) -> int:
-        if self.zone_type == ZoneType.restricted:
+        if self.zone_type == ZoneType.RESTRICTED:
             return 2
-        if self.zone_type == ZoneType.blocked:
+        if self.zone_type == ZoneType.BLOCKED:
             return 10**9
         return 1
 
+    @property
+    def is_unbounded(self) -> bool:
+        return self.max_drones is None
 
 @dataclass
 class Connection:
@@ -51,7 +54,11 @@ class Drone:
     current_zone: str
     status: str = "READY"
     pending_to: Optional[str] = None
-    finished: bool = False
+    delivered: bool = False
+
+    @property
+    def in_transit(self) -> bool:
+        return self.pending_to is not None
 
 @dataclass
 class Colors(Enum):

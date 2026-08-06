@@ -48,7 +48,7 @@ class RRTStarPlanner:
         for n in tree:
             d = self._dist(n, sample)
             if d < bestd:
-                bestd = n
+                bestd = d
                 best = n
         return best if best is not None else sample
 
