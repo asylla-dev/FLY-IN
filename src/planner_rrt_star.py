@@ -105,7 +105,7 @@ class RRTStarPlanner:
             for n in near_nodes:
                 if n == parent:
                     continue
-                if n not in self.adj[zone]:
+                if n not in self.adj[new_zone]:
                     continue
                 new_cost = tree[new_zone].cost + self._edge_cost(n)
                 tree[n].parent = new_zone
