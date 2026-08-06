@@ -42,7 +42,9 @@ class Simulation:
         for d in self.drones:
             p = self.planner.plan(self.start, self.end)
             if not p:
-                raise ValueError(f"No path found from '{self.start}' to '{self.end}'")
+                raise ValueError(
+                    f"No path found from '{self.start}' to '{self.end}'"
+                )
             self.paths[d.drone_id] = p
             self.path_index[d.drone_id] = 0
 
@@ -54,7 +56,12 @@ class Simulation:
             occ[d.current_zone] += 1
         return occ
 
-    def _can_enter(self, zone_name: str, planned_in: int, occ_after_out: dict[str, int]) -> bool:
+    def _can_enter(
+        self,
+        zone_name: str,
+        planned_in: int,
+        occ_after_out: dict[str, int]
+    ) -> bool:
         z = self.zones[zone_name]
         if z.is_unbounded:
             return True
@@ -111,7 +118,7 @@ class Simulation:
 
         occ_after_out = dict(occ)
         for zone_name, out_n in leaving.items():
-            occ_after_out[zone_name] = max(0, occ_after_out[zone_name] - out_n)
+            occ_after_out[zone_name] = max (0, occ_after_out[zone_name] - out_n)
 
         edge_use: dict[tuple[str, str], int] = {}
         planned_in: dict[str, int] = {z: 0 for z in self.zones}
@@ -126,7 +133,9 @@ class Simulation:
             if edge_use.get(edge, 0) >= cap:
                 continue
 
-            if not self._can_enter(nxt, planned_in.get(nxt, 0) + 1, occ_after_out):
+            if not self._can_enter(
+                nxt, planned_in.get(nxt, 0) + 1, occ_after_out
+            ):
                 continue
 
             edge_use[edge] = edge_use.get(edge, 0) + 1
@@ -144,7 +153,9 @@ class Simulation:
                 d.transit_from = d.current_zone
                 d.transit_to = nxt
                 d.transit_remaining = 2
-                moves.append(Move(d.drone_id, f"{d.current_zone}-{nxt}"))
+                moves.append(
+                    Move(d.drone_id, f"{d.current_zone}-{nxt}")
+                )
 
         moves.sort(key=lambda m: m.drone_id)
         return [f"D{m.drone_id}-{m.token}" for m in moves]
@@ -164,12 +175,17 @@ class Simulation:
                 log.append("")
                 stagnation += 1
                 if stagnation > 50:
-                    raise RuntimeError("Simulation stalled (possible deadlock)")
+                    raise RuntimeError(
+                        "Simulation stalled (possible deadlock)"
+                    )
         if not self.all_delivered():
             raise RuntimeError("Simulation exceeded max turns")
         return log
 
-    def get_drone_position(self, drone_id: int) -> Optional[tuple[int, int]]:
+    def get_drone_position(
+        self,
+        drone_id: int
+    ) -> Optional[tuple[int, int]]:
         for d in self.drones:
             if d.drone_id != drone_id:
                 continue

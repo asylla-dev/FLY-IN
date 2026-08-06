@@ -1,5 +1,5 @@
 from __future__ import annotations
-from .models import ZoneType, Zone, Connection
+from .models import ZoneType, Zone, Connections
 from dataclasses import dataclass
 from typing import Optional
 import random
@@ -52,7 +52,12 @@ class RRTStarPlanner:
                 best = n
         return best if best is not None else sample
 
-    def _choose_parent(self, near: list[str], new_zone: str, tree: dict[str, TreeNode]) -> str:
+    def _choose_parent(
+        self,
+        near: list[str],
+        new_zone: str,
+        tree: dict[str, TreeNode]
+    ) -> str:
         best_parent = near[0]
         best_cost = tree[best_parent].cost + self._edge_cost(new_zone)
         for n in near[1:]:
@@ -62,7 +67,11 @@ class RRTStarPlanner:
                 best_parent = n
         return best_parent
 
-    def _extract_path(self, tree: dict[str, TreeNode], goal: str) -> list[str]:
+    def _extract_path(
+        self,
+        tree: dict[str, TreeNode],
+        goal: str
+    ) -> list[str]:
         path: list[str] = [goal]
         cur = goal
         while tree[cur].parent is not None:
@@ -80,7 +89,8 @@ class RRTStarPlanner:
     ) -> list[str]:
         if start == goal:
             return [start]
-        tree: dict[str, Treenode] = {start: TreeNode(zone=start, parent=None, cost=0.0)}
+        tree: dict[str, TreeNode] = {start: TreeNode(
+            zone=start, parent=None, cost=0.0)}
         all_names = list(self.zones.keys())
         best_goal: Optional[str] = None
         best_goal_cost = 1e18
@@ -115,7 +125,9 @@ class RRTStarPlanner:
                 if g_cost < best_goal_cost:
                     best_goal_cost = g_cost
                     best_goal = goal
-                    tree[goal] = TreeNode(zone=goal, parent=new_zone, cost=g_cost)
+                    tree[goal] = TreeNode(
+                        zone=goal, parent=new_zone, cost=g_cost
+                        )
         if best_goal is None and goal in tree:
             best_goal = goal
         if best_goal is None:

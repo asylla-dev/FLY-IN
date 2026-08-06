@@ -4,7 +4,7 @@ import math
 from dataclasses import dataclass
 
 import pygame  # type: ignore[import-not-found]
-from pygame import Surface
+from pygame import Surface  # type: ignore[import-not-found]
 
 from .models import Colors, ZoneType
 from .simulation import Simulation
@@ -30,7 +30,10 @@ class PygameVisualizer:
         self.drone_image_path = drone_image_path
         self.camera = Camera()
 
-    def _zone_color(self, color_name: str | None) -> tuple[int, int, int]:
+    def _zone_color(
+        self,
+        color_name: str | None
+    ) -> tuple[int, int, int]:
         if color_name is None:
             return (150, 150, 150)
         if color_name == "rainbow":
@@ -49,20 +52,34 @@ class PygameVisualizer:
             return Colors[color_name].value
         return (150, 150, 150)
 
-    def _draw_glow(self, screen: Surface, x: float, y: float, c: tuple[int, int, int], r: float) -> None:
+    def _draw_glow(
+        self,
+        screen: Surface,
+        x: float,
+        y: float,
+        c: tuple[int, int, int],
+        r: float
+    ) -> None:
         layer = Surface(screen.get_size(), pygame.SRCALPHA)
         for rad, alpha in ((r * 2.3, 25), (r * 1.7, 45), (r * 1.3, 65)):
             pygame.draw.circle(layer, (c[0], c[1], c[2], alpha), (x, y), rad)
         screen.blit(layer, (0, 0))
 
-    def run(self, turn_log: list[str], width: int = 1200, height: int = 900) -> None:
+    def run(
+        self,
+        turn_log: list[str],
+        width: int = 1200,
+        height: int = 900
+    ) -> None:
         pygame.init()
         screen = pygame.display.set_mode((width, height))
         pygame.display.set_caption("Fly-in / RRT* Visualizer")
         clock = pygame.time.Clock()
         font = pygame.font.SysFont("Arial", 16)
 
-        sprite = pygame.image.load(self.drone_image_path).convert_alpha()
+        sprite = pygame.image.load(
+                                    self.drone_image_path).convert_alpha(
+                                )
 
         zones = self.sim.zones
         min_x = min(z.x for z in zones.values())
@@ -136,8 +153,10 @@ class PygameVisualizer:
                 ay = oy + (a.y - min_y) * ch
                 bx = ox + (b.x - min_x) * cw
                 by = oy + (b.y - min_y) * ch
-                pygame.draw.line(screen, (210, 210, 210), (ax, ay), (bx, by), 5)
-                pygame.draw.line(screen, (110, 140, 180), (ax, ay), (bx, by), 2)
+                pygame.draw.line(
+                    screen, (210, 210, 210), (ax, ay), (bx, by), 5)
+                pygame.draw.line(
+                    screen, (110, 140, 180), (ax, ay), (bx, by), 2)
 
             for z in zones.values():
                 x = ox + (z.x - min_x) * cw
@@ -149,8 +168,10 @@ class PygameVisualizer:
                 pygame.draw.circle(screen, col, (x, y), r)
 
                 if z.zone_type == ZoneType.BLOCKED:
-                    pygame.draw.line(screen, (0, 0, 0), (x - 8, y - 8), (x + 8, y + 8), 3)
-                    pygame.draw.line(screen, (0, 0, 0), (x + 8, y - 8), (x - 8, y + 8), 3)
+                    pygame.draw.line(
+                        screen, (0, 0, 0), (x - 8, y - 8), (x + 8, y + 8), 3)
+                    pygame.draw.line(
+                        screen, (0, 0, 0), (x + 8, y - 8), (x - 8, y + 8), 3)
 
                 label = font.render(z.name, True, (35, 35, 35))
                 screen.blit(label, (x - label.get_width() / 2, y + r + 6))
