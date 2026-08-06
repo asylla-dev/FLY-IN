@@ -51,7 +51,9 @@ class Parser:
             with self.filename.open("r", encoding="utf-8") as f:
                 return f.readlines()
         except FileNotFoundError as exc:
-            raise FileNotFoundError(f"Input file not found: {self.filename}") from exc
+            raise FileNotFoundError(
+                f"Input file not found: {self.filename}"
+            ) from exc
 
     def _clean(self, raw: str) -> str:
         idx = raw.find("#")
@@ -68,12 +70,16 @@ class Parser:
             if not item:
                 continue
             if "=" not in item:
-                raise ValueError(f"Line {self.line_no}: Invalid metadata '{item}'")
+                raise ValueError(
+                    f"Line {self.line_no}: Invalid metadata '{item}'"
+                )
             k, v = item.split("=", 1)
             k = k.strip().lower()
             v = v.strip()
             if not v:
-                raise ValueError(f"Line {self.line_no}: Empty metadata value for '{k}'")
+                raise ValueError(
+                    f"Line {self.line_no}: Empty metadata value for '{k}'"
+                )
             out[k] = v
         return out
 
@@ -106,18 +112,26 @@ class Parser:
             elif line.startswith("connection:"):
                 self._parse_connection(line)
             else:
-                raise ValueError(f"Line {self.line_no}: Unknown command '{line}'")
+                raise ValueError(
+                    f"Line {self.line_no}: Unknown command '{line}'"
+                )
 
     def _parse_nb_drones(self, line: str) -> None:
         if not line.startswith("nb_drones:"):
-            raise ValueError(f"Line {self.line_no}: First data line must be 'nb_drones:'")
+            raise ValueError(
+                f"Line {self.line_no}: First data line must be 'nb_drones:'"
+            )
         raw = line.split(":", 1)[1].strip()
         try:
             n = int(raw)
         except ValueError as exc:
-            raise ValueError(f"Line {self.line_no}: nb_drones must be integer") from exc
+            raise ValueError(
+                f"Line {self.line_no}: nb_drones must be integer"
+            ) from exc
         if n <= 0:
-            raise ValueError(f"Line {self.line_no}: nb_drones must be > 0")
+            raise ValueError(
+                f"Line {self.line_no}: nb_drones must be > 0"
+            )
         self._num_drones = n
 
     def _parse_zone(self, line: str, role: str) -> None:
@@ -127,24 +141,34 @@ class Parser:
 
         parts = base.split()
         if len(parts) != 3:
-            raise ValueError(f"Line {self.line_no}: Invalid zone format")
+            raise ValueError(
+                f"Line {self.line_no}: Invalid zone format"
+            )
 
         name, sx, sy = parts
         if "-" in name or " " in name:
-            raise ValueError(f"Line {self.line_no}: Zone name '{name}' cannot contain '-' or spaces")
+            raise ValueError(
+                f"Line {self.line_no}: Zone name '{name}' cannot contain '-' or spaces"
+            )
         if name in self._zones:
-            raise ValueError(f"Line {self.line_no}: Duplicate zone '{name}'")
+            raise ValueError(
+                f"Line {self.line_no}: Duplicate zone '{name}'"
+            )
 
         try:
             x = int(sx)
             y = int(sy)
         except ValueError as exc:
-            raise ValueError(f"Line {self.line_no}: Coordinates must be integers") from exc
+            raise ValueError(
+                f"Line {self.line_no}: Coordinates must be integers"
+            ) from exc
 
         zone_raw = meta.get("zone", "normal").lower()
         allowed = {z.value for z in ZoneType}
         if zone_raw not in allowed:
-            raise ValueError(f"Line {self.line_no}: Invalid zone type '{zone_raw}'")
+            raise ValueError(
+                f"Line {self.line_no}: Invalid zone type '{zone_raw}'"
+            )
         zone_type = ZoneType(zone_raw)
 
         color = meta.get("color")
@@ -155,9 +179,13 @@ class Parser:
             try:
                 max_drones = int(md)
             except ValueError as exc:
-                raise ValueError(f"Line {self.line_no}: max_drones must be integer") from exc
+                raise ValueError(
+                    f"Line {self.line_no}: max_drones must be integer"
+                ) from exc
             if max_drones <= 0:
-                raise ValueError(f"Line {self.line_no}: max_drones must be > 0")
+                raise ValueError(
+                    f"Line {self.line_no}: max_drones must be > 0"
+                )
 
         zone = Zone(
             name=name,
@@ -172,11 +200,15 @@ class Parser:
 
         if role == "start":
             if self._start is not None:
-                raise ValueError(f"Line {self.line_no}: Multiple start_hub definitions")
+                raise ValueError(
+                    f"Line {self.line_no}: Multiple start_hub definitions"
+                )
             self._start = name
         if role == "end":
             if self._end is not None:
-                raise ValueError(f"Line {self.line_no}: Multiple end_hub definitions")
+                raise ValueError(
+                    f"Line {self.line_no}: Multiple end_hub definitions"
+                )
             self._end = name
 
     def _parse_connection(self, line: str) -> None:
@@ -184,27 +216,41 @@ class Parser:
         base, meta = self._extract_meta(body)
 
         if "-" not in base:
-            raise ValueError(f"Line {self.line_no}: Invalid connection format")
+            raise ValueError(
+                f"Line {self.line_no}: Invalid connection format"
+            )
         a, b = [x.strip() for x in base.split("-", 1)]
         if not a or not b:
-            raise ValueError(f"Line {self.line_no}: Empty zone name in connection")
+            raise ValueError(
+                f"Line {self.line_no}: Empty zone name in connection"
+            )
         if a not in self._zones or b not in self._zones:
-            raise ValueError(f"Line {self.line_no}: Undefined zone in connection '{a}-{b}'")
+            raise ValueError(
+                f"Line {self.line_no}: Undefined zone in connection '{a}-{b}'"
+            )
 
         k = tuple(sorted((a, b)))
         if k in self._seen_edges:
-            raise ValueError(f"Line {self.line_no}: Duplicate connection '{a}-{b}'")
+            raise ValueError(
+                f"Line {self.line_no}: Duplicate connection '{a}-{b}'"
+            )
         self._seen_edges.add(k)
 
         cap_raw = meta.get("max_link_capacity", "1")
         try:
             cap = int(cap_raw)
         except ValueError as exc:
-            raise ValueError(f"Line {self.line_no}: max_link_capacity must be integer") from exc
+            raise ValueError(
+                f"Line {self.line_no}: max_link_capacity must be integer"
+            ) from exc
         if cap <= 0:
-            raise ValueError(f"Line {self.line_no}: max_link_capacity must be > 0")
+            raise ValueError(
+                f"Line {self.line_no}: max_link_capacity must be > 0"
+            )
 
-        self._connections.append(Connection(a=a, b=b, max_link_capacity=cap))
+        self._connections.append(
+            Connection(a=a, b=b, max_link_capacity=cap)
+        )
         self._zones[a].neighbors.append(b)
         self._zones[b].neighbors.append(a)
 
