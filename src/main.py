@@ -13,9 +13,21 @@ from .visualizer import PygameVisualizer
 def main() -> int:
     ap = argparse.ArgumentParser(description="Fly-in drone routing")
     ap.add_argument("map_file", help="Path to map file")
-    ap.add_argument("--no-pygame", action="store_true", help="Disable pygame visualizer")
-    ap.add_argument("--drone-image", default="assets/drones.png", help="Drone sprite PNG path")
-    ap.add_argument("--seed", type=int, default=42, help="RRT* random seed")
+    ap.add_argument(
+        "--no-pygame",
+        action="store_true",
+        help="Disable pygame visualizer"
+    )
+    ap.add_argument(
+        "--drone-image",
+        default="assets/drones.png",
+        help="Drone sprite PNG path"
+    )
+    ap.add_argument(
+        "--seed",
+        type=int, default=42,
+        help="RRT* random seed"
+    )
     args = ap.parse_args()
 
     try:

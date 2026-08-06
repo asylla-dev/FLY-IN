@@ -38,6 +38,7 @@ class Zone:
     def is_unbounded(self) -> bool:
         return self.max_drones is None
 
+
 @dataclass
 class Connection:
     a: str
@@ -60,9 +61,10 @@ class Drone:
     def in_transit(self) -> bool:
         return self.pending_to is not None
 
+
 @dataclass
 class Colors(Enum):
-    
+
     red = (220, 60, 60)
     orange = (235, 140, 50)
     yellow = (230, 200, 60)
