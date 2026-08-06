@@ -26,7 +26,7 @@ class RRTStarPlanner:
             self.adj[c.a].append(c.b)
             self.adj[c.b].append(c.a)
 
-    def _egde_cost(self, to_zone: str) -> float:
+    def _edge_cost(self, to_zone: str) -> float:
         z = self.zones[to_zone]
         if z.zone_type == ZoneType.BLOCKED:
             return 1e9
@@ -42,7 +42,7 @@ class RRTStarPlanner:
         dy = za.y - zb.y
         return (dx * dx + dy * dy) ** 0.5
 
-    def __nearest(self, tree: dict[str, TreeNode], sample: str) -> str:
+    def _nearest(self, tree: dict[str, TreeNode], sample: str) -> str:
         best = None
         bestd = 1e18
         for n in tree:
