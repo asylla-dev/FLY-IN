@@ -80,7 +80,7 @@ class RRTStarPlanner:
     ) -> list[str]:
         if start == goal:
             return [start]
-        tree: dict[str, Treenode] = {start: TreeNode(zlone=start, parent=None, cost=0.0)}
+        tree: dict[str, Treenode] = {start: TreeNode(zone=start, parent=None, cost=0.0)}
         all_names = list(self.zones.keys())
         best_goal: Optional[str] = None
         best_goal_cost = 1e18
