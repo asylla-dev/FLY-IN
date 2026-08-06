@@ -1,5 +1,5 @@
 from __future__ import annotations
-from dataclases import dataclass, field
+from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional
 
@@ -51,3 +51,29 @@ class Drone:
     status: str = "READY"
     pending_to: Optional[str] = None
     finished: bool = False
+
+@dataclass
+class Colors(Enum):
+    
+    red = (220, 60, 60)
+    orange = (235, 140, 50)
+    yellow = (230, 200, 60)
+    green = (70, 170, 90)
+    blue = (60, 120, 210)
+    indigo = (75, 70, 160)
+    violet = (150, 80, 190)
+
+    white = (245, 245, 245)
+    black = (25, 25, 25)
+    gray = (150, 150, 150)
+    grey = (150, 150, 150)
+
+    cyan = (60, 190, 190)
+    magenta = (200, 70, 170)
+    brown = (140, 100, 70)
+    pink = (230, 150, 180)
+    teal = (40, 140, 140)
+    lime = (170, 210, 60)
+    navy = (30, 50, 100)
+    gold = (210, 175, 55)
+    silver = (190, 190, 195)

@@ -30,7 +30,7 @@ class RRTStarPlanner:
         z = self.zones[to_zone]
         if z.zone_type == ZoneType.BLOCKED:
             return 1e9
-        base = 2.0 if z.zone_type = ZoneType.RESTRICTED else 1.0
+        base = 2.0 if z.zone_type == ZoneType.RESTRICTED else 1.0
         if z.zone_type == ZoneType.PRIORITY:
             base -= 0.15
         return max(0.2, base)
@@ -50,7 +50,7 @@ class RRTStarPlanner:
             if d < bestd:
                 bestd = n
                 best = n
-        return best if best if not None else sample
+        return best if best is not None else sample
 
     def _choose_parent(self, near: list[str], new_zone: str, tree: dict[str, TreeNode]) -> str:
         best_parent = near[0]
