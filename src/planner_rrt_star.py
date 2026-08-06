@@ -88,7 +88,7 @@ class RRTStarPlanner:
             sample = goal if self.rng.random() < 0.15 else self.rng.choice(all_names)
             if self.zones[sample].zone_type == ZoneType.BLOCKED:
                 continue
-            near0 = self.__nearest(tree, sample)
+            near0 = self._nearest(tree, sample)
             neighbors = [n for n in self.adj.get(near0, []) if self.zones[n].zone_type != ZoneType.BLOCKED]
             if not neighbors:
                 continue
@@ -100,7 +100,7 @@ class RRTStarPlanner:
             if not near_nodes:
                 near_nodes = [near0]
             parent = self._choose_parent(near_nodes, new_zone, tree)
-            cost = tree[parent].cost + self._egde_cost(new_zone)
+            cost = tree[parent].cost + self._edge_cost(new_zone)
             tree[new_zone] = TreeNode(zone=new_zone, parent=parent, cost=cost)
             for n in near_nodes:
                 if n == parent:
@@ -110,7 +110,7 @@ class RRTStarPlanner:
                 new_cost = tree[new_zone].cost + self._edge_cost(n)
                 tree[n].parent = new_zone
                 tree[n].cost = new_cost
-            if goals in self.adj[new_zone]:
+            if goal in self.adj[new_zone]:
                 g_cost = tree[new_zone].cost + self._edge_cost(goal)
                 if g_cost < best_goal_cost:
                     best_goal_cost = g_cost
