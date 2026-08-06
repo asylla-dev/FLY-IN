@@ -6,10 +6,10 @@ install:
 	$(PYTHON) -m pip install -r requirements.txt
 
 run:
-	$(PYTHON) -m src.main maps/easy/02_simple_fork.txt
+	$(PYTHON) -m src.main maps/medium/01_dead_end_trap.txt
 
 debug:
-	$(PYTHON) -m pdb -m src.main maps/easy/02_simple_fork.txt
+	$(PYTHON) -m pdb -m src.main maps/medium/01_dead_end_trap.txt
 
 clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} +
