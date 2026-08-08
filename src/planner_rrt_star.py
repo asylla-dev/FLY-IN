@@ -118,16 +118,16 @@ class RRTStarPlanner:
                 if n not in self.adj[new_zone]:
                     continue
                 new_cost = tree[new_zone].cost + self._edge_cost(n)
-                tree[n].parent = new_zone
-                tree[n].cost = new_cost
+                if new_cost < tree[n].cost:
+                    tree[n].parent = new_zone
+                    tree[n].cost = new_cost
             if goal in self.adj[new_zone]:
                 g_cost = tree[new_zone].cost + self._edge_cost(goal)
                 if g_cost < best_goal_cost:
                     best_goal_cost = g_cost
-                    best_goal = goal
-                    tree[goal] = TreeNode(
-                        zone=goal, parent=new_zone, cost=g_cost
-                        )
+                    best_goal = new_zone
+                    tree[goal] = TreeNode(zone=goal, parent=new_zone, cost=g_cost)
+                    
         if best_goal is None and goal in tree:
             best_goal = goal
         if best_goal is None:
