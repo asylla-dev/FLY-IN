@@ -127,7 +127,7 @@ class RRTStarPlanner:
                     best_goal_cost = g_cost
                     best_goal = new_zone
                     tree[goal] = TreeNode(zone=goal, parent=new_zone, cost=g_cost)
-                    
+        print(f"DEBUG: tree has {len(tree)} nodes: {sorted(tree.keys()}")            
         if best_goal is None and goal in tree:
             best_goal = goal
         if best_goal is None:
