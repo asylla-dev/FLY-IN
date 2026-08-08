@@ -40,7 +40,7 @@ class Simulation:
 
     def _init_paths(self) -> None:
         for d in self.drones:
-            p = self.planner.plan(self.start, self.end, iters=5000)
+            p = self.planner.plan(self.start, self.end)
             if not p:
                 raise ValueError(
                     f"No path found from '{self.start}' to '{self.end}'"
@@ -76,7 +76,7 @@ class Simulation:
         return p[i + 1]
 
     def _reroute(self, d: Drone) -> None:
-        p = self.planner.plan(d.current_zone, self.end, iters=5000)
+        p = self.planner.plan(d.current_zone, self.end)
         if p:
             self.paths[d.drone_id] = p
             self.path_index[d.drone_id] = 0
