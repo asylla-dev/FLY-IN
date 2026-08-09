@@ -5,7 +5,7 @@ class Display:
     @staticmethod
     def print_log(turn_log: list[str]) -> None:
         for line in turn_log:
-            print(log)
+            print(line)
 
     @staticmethod
     def print_summary(num_drones: int, turns: int) -> None:

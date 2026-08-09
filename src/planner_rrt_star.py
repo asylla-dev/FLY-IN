@@ -125,7 +125,7 @@ class RRTStarPlanner:
                 g_cost = tree[new_zone].cost + self._edge_cost(goal)
                 if g_cost < best_goal_cost:
                     best_goal_cost = g_cost
-                    best_goal = new_zone
+                    best_goal = goal
                     tree[goal] = TreeNode(zone=goal, parent=new_zone, cost=g_cost)
 
         if best_goal is None and goal in tree:
