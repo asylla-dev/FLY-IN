@@ -56,10 +56,10 @@ class Drone:
     status: str = "READY"
     pending_to: Optional[str] = None
     delivered: bool = False
-
-    @property
-    def in_transit(self) -> bool:
-        return self.pending_to is not None
+    in_transit: bool = False
+    transit_from: Optional[str] = None
+    transit_to: Optional[str] = None
+    transit_remaining: int = 0
 
 
 @dataclass
