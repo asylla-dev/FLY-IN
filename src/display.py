@@ -1,6 +1,6 @@
 from __future__ import annotations
 
- 
+
 class Display:
     @staticmethod
     def print_log(turn_log: list[str]) -> None:

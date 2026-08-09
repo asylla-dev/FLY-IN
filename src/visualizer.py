@@ -119,7 +119,8 @@ class PygameVisualizer:
                     elif ev.key == pygame.K_MINUS:
                         interval = min(3.0, interval + 0.05)
                 elif ev.type == pygame.MOUSEWHEEL:
-                    self.camera.zoom = max(0.2, min(4.0, self.camera.zoom + 0.1 * ev.y))
+                    zoom = self.camera.zoom + 0.1 * ev.y
+                    self.camera.zoom = max(0.2, min(4.0, zoom))
                 elif ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
                     self.camera.drag = True
                     self.camera.mx, self.camera.my = ev.pos

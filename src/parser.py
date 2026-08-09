@@ -148,7 +148,8 @@ class Parser:
         name, sx, sy = parts
         if "-" in name or " " in name:
             raise ValueError(
-                f"Line {self.line_no}: Zone name '{name}' cannot contain '-' or spaces"
+                f"Line {self.line_no}: Zone name '{name}'"
+                "cannot contain '-' or spaces"
             )
         if name in self._zones:
             raise ValueError(
