@@ -17,7 +17,7 @@ class Zone:
     x: int
     y: int
     zone_type: ZoneType = ZoneType.NORMAL
-    color: Optional[str] = 1
+    color: Optional[str] = None
     role: str = "hub"
     max_drones: Optional[int] = None
     neighbors: list[str] = field(default_factory=list)
@@ -46,7 +46,8 @@ class Connection:
     max_link_capacity: int = 1
 
     def key(self) -> tuple[str, str]:
-        return tuple(sorted((self.a, self.b)))
+        a, b = sorted((self.a, self.b))
+        return (a, b)
 
 
 @dataclass

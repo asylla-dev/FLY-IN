@@ -162,7 +162,7 @@ class Simulation:
                 d.transit_remaining = 2
                 moves.append(
                     Move(d.drone_id, f"{d.current_zone}-{nxt}")
-                )            
+                )
         moves.sort(key=lambda m: m.drone_id)
         return [f"D{m.drone_id}-{m.token}" for m in moves]
 
@@ -195,7 +195,11 @@ class Simulation:
         for d in self.drones:
             if d.drone_id != drone_id:
                 continue
-            if d.in_transit and d.transit_from is not None and d.transit_to is not None:
+            if (
+                d.in_transit
+                and d.transit_from is not None
+                and d.transit_to is not None
+            ):
                 a = self.zones[d.transit_from]
                 b = self.zones[d.transit_to]
                 total = 2

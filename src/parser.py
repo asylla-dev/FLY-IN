@@ -230,7 +230,9 @@ class Parser:
                 f"Line {self.line_no}: Undefined zone in connection '{a}-{b}'"
             )
 
-        k = tuple(sorted((a, b)))
+        sa, sb = sorted((a, b))
+        k = (sa, sb)
+        self._seen_edges.add(k)
         if k in self._seen_edges:
             raise ValueError(
                 f"Line {self.line_no}: Duplicate connection '{a}-{b}'"
