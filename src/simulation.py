@@ -30,7 +30,9 @@ class Simulation:
         self.num_drones = num_drones
         self.planner = planner
 
-        self.edge_caps: dict[tuple[str, str], int] = {c.key(): c.max_link_capacity for c in connections}
+        self.edge_caps: dict[tuple[str, str], int] = {
+            c.key(): c.max_link_capacity for c in connections
+        }
         self.turn = 0
         self.drones: list[Drone] = [Drone(drone_id=i + 1, current_zone=start_hub) for i in range(num_drones)]
         self.paths: dict[int, list[str]] = {}
