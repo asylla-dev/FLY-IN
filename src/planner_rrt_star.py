@@ -105,7 +105,7 @@ class RRTStarPlanner:
             ]
             if not neighbors:
                 continue
-           new_zone = min(neighbors, key=lambda n: self._dist(n, sample))
+            new_zone = min(neighbors, key=lambda n: self._dist(n, sample))
             if new_zone in tree:
                 continue
             r = max(1.0, gamma)

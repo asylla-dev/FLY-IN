@@ -6,7 +6,7 @@ install:
 	$(PYTHON) -m pip install -r requirements.txt
 
 run:
-	$(PYTHON) -m src.main maps/hard/01_maze_nightmare.txt
+	$(PYTHON) -m src.main maps/hard/02_capacity_hell.txt
 debug:
 	$(PYTHON) -m pdb -m src.main maps/medium/01_dead_end_trap.txt
 
