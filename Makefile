@@ -7,7 +7,6 @@ install:
 
 run:
 	$(PYTHON) -m src.main maps/medium/01_dead_end_trap.txt
-
 debug:
 	$(PYTHON) -m pdb -m src.main maps/medium/01_dead_end_trap.txt
 
