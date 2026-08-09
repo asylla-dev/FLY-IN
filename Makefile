@@ -6,10 +6,10 @@ install:
 	$(PYTHON) -m pip install -r requirements.txt
 
 run:
-	$(PYTHON) -m src.main maps/hard/03_ultimate_challenge.txt
+	$(PYTHON) -m src.main maps/challenger/01_the_impossible_dream.txt
 	
 debug:
-	$(PYTHON) -m pdb -m src.main maps/medium/01_dead_end_trap.txt
+	$(PYTHON) -m pdb -m src.main maps/hard/03_ultimate_challenge.txt
 
 clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} +
