@@ -6,7 +6,7 @@ install:
 	$(PYTHON) -m pip install -r requirements.txt
 
 run:
-	$(PYTHON) -m src.main maps/medium/02_circular_loop.txt
+	$(PYTHON) -m src.main maps/easy/01_linear_path.txt
 debug:
 	$(PYTHON) -m pdb -m src.main maps/medium/01_dead_end_trap.txt
 
