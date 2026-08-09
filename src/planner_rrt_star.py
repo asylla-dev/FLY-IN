@@ -99,10 +99,13 @@ class RRTStarPlanner:
             if self.zones[sample].zone_type == ZoneType.BLOCKED:
                 continue
             near0 = self._nearest(tree, sample)
-            neighbors = [n for n in self.adj.get(near0, []) if self.zones[n].zone_type != ZoneType.BLOCKED]
+            neighbors = [
+                n for n in self.adj.get(near0, [])
+                if self.zones[n].zone_type != ZoneType.BLOCKED and n not in tree
+            ]
             if not neighbors:
                 continue
-            new_zone = min(neighbors, key=lambda n: self._dist(n, sample))
+           new_zone = min(neighbors, key=lambda n: self._dist(n, sample))
             if new_zone in tree:
                 continue
             r = max(1.0, gamma)
