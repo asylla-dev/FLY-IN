@@ -37,7 +37,6 @@ class Simulation:
         self.path_index: dict[int, int] = {}
 
         self._init_paths()
-        print(f"DEBUG paths={self.paths}")
 
     def _init_paths(self) -> None:
         for d in self.drones:
@@ -157,7 +156,6 @@ class Simulation:
                 moves.append(
                     Move(d.drone_id, f"{d.current_zone}-{nxt}")
                 )            
-        print(f"DEBUG turn={self.turn} occ={occ} intentions={[(d.drone_id, d.current_zone, nxt) for d, nxt, in intentions]}")
         moves.sort(key=lambda m: m.drone_id)
         return [f"D{m.drone_id}-{m.token}" for m in moves]
 
