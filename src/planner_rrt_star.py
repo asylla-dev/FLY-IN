@@ -96,13 +96,17 @@ class RRTStarPlanner:
         best_goal: Optional[str] = None
         best_goal_cost = 1e18
         for _ in range(iters):
-            sample = goal if self.rng.random() < 0.15 else self.rng.choice(all_names)
+            sample = (
+                goal if self.rng.random() < 0.15
+                else self.rng.choice(all_names)
+            )
             if self.zones[sample].zone_type == ZoneType.BLOCKED:
                 continue
             near0 = self._nearest(tree, sample)
             neighbors = [
                 n for n in self.adj.get(near0, [])
-                if self.zones[n].zone_type != ZoneType.BLOCKED and n not in tree
+                if self.zones[n].zone_type != ZoneType.BLOCKED
+                and n not in tree
             ]
             if not neighbors:
                 continue
@@ -110,7 +114,11 @@ class RRTStarPlanner:
             if new_zone in tree:
                 continue
             r = max(1.0, gamma)
-            near_nodes = [n for n in tree if self._dist(n, new_zone) <= r and new_zone in self.adj[n]]
+            near_nodes = [
+                n for n in tree
+                if self._dist(n, new_zone) <= r
+                and new_zone if self.adj[n]
+            ]
             if not near_nodes:
                 near_nodes = [near0]
             parent = self._choose_parent(near_nodes, new_zone, tree)
@@ -130,7 +138,11 @@ class RRTStarPlanner:
                 if g_cost < best_goal_cost:
                     best_goal_cost = g_cost
                     best_goal = goal
-                    tree[goal] = TreeNode(zone=goal, parent=new_zone, cost=g_cost)
+                    tree[goal] = TreeNode(
+                        zone=goal,
+                        parent=new_zone,
+                        cost=g_cost
+                    )
 
         if best_goal is None and goal in tree:
             best_goal = goal
