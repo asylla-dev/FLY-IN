@@ -1,8 +1,9 @@
 from __future__ import annotations
-from .models import ZoneType, Zone, Connection
 from dataclasses import dataclass
 from typing import Optional
 import random
+from .models import ZoneType, Zone, Connection
+
 
 @dataclass
 class TreeNode:
@@ -15,7 +16,7 @@ class RRTStarPlanner:
     def __init__(
         self,
         zones: dict[str, Zone],
-        connections: list[Connections],
+        connections: list[Connection],
         seed: int = 42,
     ) -> None:
         self.zones = zones
