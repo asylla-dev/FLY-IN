@@ -34,7 +34,10 @@ class Simulation:
             c.key(): c.max_link_capacity for c in connections
         }
         self.turn = 0
-        self.drones: list[Drone] = [Drone(drone_id=i + 1, current_zone=start_hub) for i in range(num_drones)]
+        self.drones: list[Drone] = [
+            Drone(drone_id=i + 1, current_zone=start_hub)
+            for i in range(num_drones)
+        ]
         self.paths: dict[int, list[str]] = {}
         self.path_index: dict[int, int] = {}
 
@@ -120,7 +123,9 @@ class Simulation:
 
         occ_after_out = dict(occ)
         for zone_name, out_n in leaving.items():
-            occ_after_out[zone_name] = max (0, occ_after_out[zone_name] - out_n)
+            occ_after_out[zone_name] = max(
+                0, occ_after_out[zone_name] - out_n
+            )
 
         edge_use: dict[tuple[str, str], int] = {}
         planned_in: dict[str, int] = {z: 0 for z in self.zones}
