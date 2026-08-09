@@ -181,8 +181,6 @@ class PygameVisualizer:
 
             spots: dict[tuple[int, int], list[tuple[float, float]]] = {}
             for d in self.sim.drones:
-                if d.delivered:
-                    continue
                 pos = self.sim.get_drone_position(d.drone_id)
                 if pos is None:
                     continue
