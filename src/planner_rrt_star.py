@@ -76,7 +76,9 @@ class RRTStarPlanner:
         path: list[str] = [goal]
         cur = goal
         while tree[cur].parent is not None:
-            cur = tree[cur].parent if tree[cur].parent is not None else cur
+            parent = tree[cur].parent
+            assert parent is not None
+            cur = parent
             path.append(cur)
         path.reverse()
         return path

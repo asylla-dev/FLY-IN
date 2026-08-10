@@ -1,10 +1,10 @@
 from __future__ import annotations
-
+from typing import cast
 import math
 from dataclasses import dataclass
 
-import pygame  # type: ignore[import-not-found]
-from pygame import Surface  # type: ignore[import-not-found]
+import pygame
+from pygame import Surface
 
 from .models import Colors, ZoneType
 from .simulation import Simulation
@@ -47,9 +47,9 @@ class PygameVisualizer:
                 Colors.violet.value,
             ]
             idx = (pygame.time.get_ticks() // 120) % len(arr)
-            return arr[idx]
+            return cast(tuple[int, int, int], arr[idx])
         if color_name in Colors.__members__:
-            return Colors[color_name].value
+            return cast(tuple[int, int, int], Colors[color_name].value)
         return (150, 150, 150)
 
     def _draw_glow(
