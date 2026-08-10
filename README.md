@@ -237,29 +237,6 @@ unless `--no-pygame` was passed.
 
 ### AI usage
 
-An AI assistant (Claude) was used throughout development, primarily as an
-interactive debugging partner rather than as a code generator from scratch:
-
-- **Debugging** — pinpointing the cause of runtime errors (missing
-  dataclass fields, `==` vs `=` typos, name-mangled private attributes,
-  wrong variable names in assignments, an inverted comparison producing
-  cycles in the RRT* tree, a set-membership check performed after the
-  element was already inserted, etc.) from tracebacks and, where the error
-  message alone wasn't enough, by adding targeted `print` debugging and
-  interpreting the output.
-- **Algorithm review** — reviewing the RRT* implementation (`plan()`,
-  nearest-neighbor selection, parent selection, rewiring, goal connection)
-  against the standard algorithm and identifying where the implementation
-  deviated from it, such as neighbor selection not excluding already-visited
-  nodes, and the rewiring step missing its cost-improvement check.
-- **Static analysis fixes** — resolving `mypy --disallow-untyped-defs
-  --warn-return-any` and `flake8` findings (line-length violations, `Any`
-  return types requiring `cast`, tuple-length narrowing after `sorted()`,
-  redundant/unused `# type: ignore` comments).
-- **Documentation** — drafting this README from the project's actual
-  structure, behavior, and the debugging history of the conversation.
-
-All core design decisions (map format, capacity/deadlock model, the choice
-to use RRT* at all) and the original code were the author's own; AI
-assistance was used to find and fix specific bugs and to review code
-quality, not to design the project from a blank page.
+- **Debugging**
+- **Algorithm review** 
+- **Documentation**
