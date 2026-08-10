@@ -41,7 +41,7 @@ class RRTStarPlanner:
         zb = self.zones[b]
         dx = za.x - zb.x
         dy = za.y - zb.y
-        return (dx * dx + dy * dy) ** 0.5
+        return float((dx * dx + dy * dy) ** 0.5)
 
     def _nearest(self, tree: dict[str, TreeNode], sample: str) -> str:
         best = None

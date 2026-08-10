@@ -232,7 +232,6 @@ class Parser:
 
         sa, sb = sorted((a, b))
         k = (sa, sb)
-        self._seen_edges.add(k)
         if k in self._seen_edges:
             raise ValueError(
                 f"Line {self.line_no}: Duplicate connection '{a}-{b}'"
