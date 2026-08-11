@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import argparse
 import sys
-
+import random
 from .display import Display
 from .parser import Parser
 from .planner_rrt_star import RRTStarPlanner
@@ -56,6 +56,7 @@ def main() -> int:
     Display.print_summary(parsed.num_drones, len(turn_log))
 
     if not args.no_pygame:
+        planner.rng = random.Random(args.seed)
         vis_sim = Simulation(
             zones=parsed.zones,
             connections=parsed.connections,
