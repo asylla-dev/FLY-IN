@@ -119,7 +119,7 @@ class RRTStarPlanner:
             near_nodes = [
                 n for n in tree
                 if self._dist(n, new_zone) <= r
-                and new_zone if self.adj[n]
+                and new_zone in self.adj[n]
             ]
             if not near_nodes:
                 near_nodes = [near0]
