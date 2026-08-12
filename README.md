@@ -198,6 +198,9 @@ connection: waypoint2-goal
 Running:
 
 ```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements
 make run maps/easy/01_linear_path.txt
 ```
 
@@ -234,6 +237,8 @@ unless `--no-pygame` was passed.
   visualizer (surfaces, event loop, drawing primitives).
 - Python `dataclasses`, `enum`, and `typing` documentation — used throughout
   the data model (`Zone`, `Drone`, `Connection`) and for satisfying `mypy`.
+
+- Diego's Documentation (dde-paul) - used to understand the Zone Type behavior and movement cost.
 
 ### AI usage
 
