@@ -6,8 +6,8 @@ install:
 	$(PYTHON) -m pip install -r requirements.txt
 
 run:
-	$(PYTHON) -m src.main maps/challenger/01_the_impossible_dream.txt
-	
+	$(PYTHON) -m src.main maps/hard/03_ultimate_challenge.txt
+
 debug:
 	$(PYTHON) -m pdb -m src.main maps/hard/03_ultimate_challenge.txt
 

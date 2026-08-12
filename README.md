@@ -226,10 +226,6 @@ unless `--no-pygame` was passed.
 
 ### References on the topic
 
-- Karaman, S. & Frazzoli, E., *Sampling-based Algorithms for Optimal Motion
-  Planning* — the original RRT* paper.
-- Steven M. LaValle, *Planning Algorithms* (Cambridge University Press) —
-  background on rapidly-exploring random trees and sampling-based planning.
 - [PythonRobotics](https://github.com/AtsushiSakai/PythonRobotics) — reference
   implementations of RRT/RRT* used to sanity-check the general shape of the
   algorithm.
