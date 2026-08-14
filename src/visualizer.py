@@ -75,7 +75,7 @@ class PygameVisualizer:
         screen = pygame.display.set_mode((width, height))
         pygame.display.set_caption("Fly-in / RRT* Visualizer")
         clock = pygame.time.Clock()
-        font = pygame.font.SysFont("Arial", 16)
+        font = pygame.font.SysFont(None, 16)
 
         sprite = pygame.image.load(
                                     self.drone_image_path).convert_alpha(
