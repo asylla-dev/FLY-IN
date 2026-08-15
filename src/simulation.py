@@ -127,7 +127,7 @@ class Simulation:
             if self.zones[nxt].zone_type == ZoneType.BLOCKED:
                 self._reroute(d)
                 continue
-            edge = tuple(sorted((d.current_zone, nxt)))
+            edgee = tuple(sorted((d.current_zone, nxt)))
             cap = self.edge_caps.get(edge, 1)
             if edge_use.get(edge, 0) >= cap:
                 continue
@@ -146,7 +146,7 @@ class Simulation:
                 self.path_index[d.drone_id] += 1
                 if nxt == self.end:
                     d.delivered = True
-                moves.append(Move(d.drone_id), nxt)
+                moves.append(Move(d.drone_id, nxt))
             elif cost == 2:
                 d.in_transit = True
                 d.transit_from = d.current_zone
