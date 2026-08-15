@@ -114,7 +114,7 @@ class Simulation:
         intentions: list[tuple[Drone, str]] = []
 
         for d in self.drones:
-            if d.delivered or d.in_transit:
+            if d.delivered or d.in_transit or d.drone_id in just_arrived:
                 continue
             nxt = self._next_zone_for(d)
             if nxt is None:
