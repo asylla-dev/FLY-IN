@@ -155,7 +155,7 @@ class Simulation:
                 moves.append(
                     Move(d.drone_id, f"{d.current_zone}-{nxt}")
                 )
-              moves.sort(key=lambda m: m.drone_id)
+            moves.sort(key=lambda m: m.drone_id)
         return [f"D{m.drone_id}-{m.token}" for m in moves]
 
     def all_delivered(self) -> bool:

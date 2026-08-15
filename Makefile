@@ -6,7 +6,6 @@ install:
 	$(PYTHON) -m pip install -r requirements.txt
 
 run:
-	$(PYTHON) -m venv venv
 	$(PYTHON) -m src.main maps/challenger/01_the_impossible_dream.txt
 
 debug:
