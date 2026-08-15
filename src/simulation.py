@@ -127,7 +127,7 @@ class Simulation:
             if self.zones[nxt].zone_type == ZoneType.BLOCKED:
                 self._reroute(d)
                 continue
-            edgee = tuple(sorted((d.current_zone, nxt)))
+            edge = tuple(sorted((d.current_zone, nxt)))
             cap = self.edge_caps.get(edge, 1)
             if edge_use.get(edge, 0) >= cap:
                 continue
