@@ -101,6 +101,7 @@ class Simulation:
                 d.in_transit = False
                 d.transit_from = None
                 d.transit_to = None
+                just_arrived.add(d.drone_id)
                 if d.current_zone == self.end:
                     d.delivered = True
                 else:
