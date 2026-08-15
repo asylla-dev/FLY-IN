@@ -42,6 +42,7 @@ class Simulation:
         self.path_index: dict[int, int] = {}
 
         self._init_paths()
+        print(f"DEBUG: paths={self.paths})
 
     def _init_paths(self) -> None:
         for d in self.drones:
@@ -89,6 +90,7 @@ class Simulation:
     def step(self) -> list[str]:
         self.turn += 1
         moves: list[Move] = []
+        just_arrived: set[int] = set()
 
         for d in self.drones:
             if not d.in_transit:
