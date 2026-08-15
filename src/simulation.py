@@ -120,41 +120,33 @@ class Simulation:
                 continue
             intentions.append((d, nxt))
             leaving[d.current_zone] += 1
-
-        occ_after_out = dict(occ)
-        for zone_name, out_n in leaving.items():
-            occ_after_out[zone_name] = max(
-                0, occ_after_out[zone_name] - out_n
-            )
-
         edge_use: dict[tuple[str, str], int] = {}
         planned_in: dict[str, int] = {z: 0 for z in self.zones}
-
+        planned_out: dict[str, int] = {z: 0 for z in self.zones}
         for d, nxt in intentions:
             if self.zones[nxt].zone_type == ZoneType.BLOCKED:
                 self._reroute(d)
                 continue
-
-            edge = tuple(sorted((d.current_zone, nxt)))
+            egge = tuple(sorted((d.current_zone, nxt)))
             cap = self.edge_caps.get(edge, 1)
             if edge_use.get(edge, 0) >= cap:
                 continue
-
+            current_occ_here = occ.get(nxt, 0) - planned_out.get(nxt, 0)
             if not self._can_enter(
-                nxt, planned_in.get(nxt, 0) + 1, occ_after_out
+                nxt, planned_in.get(nxt, 0) + 1,
+                {**occ, nxt: current_occ_here}
             ):
                 continue
-
             edge_use[edge] = edge_use.get(edge, 0) + 1
             planned_in[nxt] = planned_in.get(nxt, 0) + 1
-
+            planned_out[d.current_zone] = planned_out.get(d.current_zone, 0) + 1
             cost = self.zones[nxt].move_cost
             if cost == 1:
                 d.current_zone = nxt
                 self.path_index[d.drone_id] += 1
                 if nxt == self.end:
                     d.delivered = True
-                moves.append(Move(d.drone_id, nxt))
+                moves.append(Move(d.drone_id), nxt)
             elif cost == 2:
                 d.in_transit = True
                 d.transit_from = d.current_zone
@@ -163,7 +155,7 @@ class Simulation:
                 moves.append(
                     Move(d.drone_id, f"{d.current_zone}-{nxt}")
                 )
-        moves.sort(key=lambda m: m.drone_id)
+              moves.sort(key=lambda m: m.drone_id)
         return [f"D{m.drone_id}-{m.token}" for m in moves]
 
     def all_delivered(self) -> bool:
