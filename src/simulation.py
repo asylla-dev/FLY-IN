@@ -42,7 +42,6 @@ class Simulation:
         self.path_index: dict[int, int] = {}
 
         self._init_paths()
-        
 
     def _init_paths(self) -> None:
         for d in self.drones:
@@ -142,7 +141,9 @@ class Simulation:
                 continue
             edge_use[edge] = edge_use.get(edge, 0) + 1
             planned_in[nxt] = planned_in.get(nxt, 0) + 1
-            planned_out[d.current_zone] = planned_out.get(d.current_zone, 0) + 1
+            planned_out[d.current_zone] = (
+                planned_out.get(d.current_zone, 0) + 1
+            )
             cost = self.zones[nxt].move_cost
             if cost == 1:
                 d.current_zone = nxt
