@@ -42,7 +42,7 @@ class Simulation:
         self.path_index: dict[int, int] = {}
 
         self._init_paths()
-        print(f"DEBUG: paths={self.paths})
+        
 
     def _init_paths(self) -> None:
         for d in self.drones:
